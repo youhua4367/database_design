@@ -11,17 +11,7 @@ import Discussion from './views/Discussion.vue'
 import Student from './views/StudentHome.vue'
 import ChapterDetail from "@/views/student/ChapterDetail.vue";
 const routes: RouteRecordRaw[] = [
-    {path:"/", redirect: '/courses'},
-    {path:"/login", component: Login},
-    {path:"/register", component: Register},
-    { path: '/courses', component: CourseList },
-    { path: '/course/:id', component: CourseDetail },
-    { path: '/mycourses', component: MyCourses },
-    { path: '/study/:id', component: Study },
-    { path: '/progress', component: Progress },
-    { path: '/discussion/:id', component: Discussion },
-    { path: '/student',component: Student },
-    { path: '/course/:courseId/chapter/:chapterId', component: ChapterDetail },
+
 ]
 
 const router = createRouter({

@@ -1,7 +1,4 @@
-<template>
-  <div id="app">
-    <!-- 顶部/侧边导航 -->
-    <header class="header">
+
 
       <nav :class="{ mobile: isMobile }">
         <button @click="currentSection='courses'">课程列表</button>
@@ -11,9 +8,7 @@
       </nav>
     </header>
 
-    <!-- 主页面 -->
-    <StudentHome :section="currentSection" />
-  </div>
+
 </template>
 
 <script>

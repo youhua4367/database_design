@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { reactive } from 'vue'
 import type {FormRules} from "element-plus";
+import {useRouter} from "vue-router";
 
-// do not use same name with ref
 const form = reactive({
     username: '',
     password: ''
 })
-
+const router = useRouter()
 // 校验规则
 const rules: FormRules = {
     username: [
@@ -22,6 +22,7 @@ const rules: FormRules = {
 
 const onSubmit = () => {
     console.log('submit!')
+    router.push('/home')
 }
 </script>
 
