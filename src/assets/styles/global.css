@@ -1,10 +1,10 @@
-html, body {
+html, body #app {
     font-family: 'FangZhengXingShu', 'FZXingKai-S04', 'KaiTi', '楷体', cursive;
     width: 100%;
     height: 100%;
     margin: 0;
+    padding: 0;
     background: white;
-    overflow-x: hidden;
 }
 
 a {
