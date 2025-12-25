@@ -1,22 +1,43 @@
-import { createRouter, createWebHistory} from "vue-router";
-import type {RouteRecordRaw} from "vue-router";
-import Login from './views/Login.vue'
-import Register from './views/Register.vue'
-import CourseList from './views/CourseList.vue'
-import CourseDetail from './views/CourseDetail.vue'
-import MyCourses from './views/MyCourses.vue'
-import Study from './views/Study.vue'
-import Progress from './views/Progress.vue'
-import Discussion from './views/Discussion.vue'
-import Student from './views/StudentHome.vue'
-import ChapterDetail from "@/views/student/ChapterDetail.vue";
+import { createRouter, createWebHistory } from 'vue-router'
+
+
+import CourseEnroll from "@/views/student/CourseEnroll.vue";
+import CourseList from '@/views/student/CourseList.vue'
+import CourseDetail from '@/views/student/CourseDetail.vue'
+import ChapterDetail from '@/views/student/ChapterDetail.vue'
+import MyCourse from "@/views/student/MyCourse.vue";
+import ProgressPage from "@/views/student/ProgressPage.vue";
+import AssignmentPage from "@/views/student/AssignmentPage.vue";
+import ExamPage from "@/views/student/ExamPage.vue";
+import ProfilePage from "@/views/student/ProfilePage.vue";
+import LayOut from "@/views/LayOut.vue";
+import AssignmentSubmit from "@/views/student/AssignmentSubmit.vue";
 const routes: RouteRecordRaw[] = [
+    { path: '', redirect: '/home' },
+    {
+        path: '/home',
+        component: LayOut,
+        children: [
+
+
+            { path: 'courses', component: CourseList },
+            { path: 'courses/:courseId', component: CourseDetail },
+            { path: 'courses/:courseId/chapter/:chapterId', component: ChapterDetail },
+            { path: 'courses/:courseId/enroll', component: CourseEnroll },
+            { path: 'mycourses', component: MyCourse },
+            { path: 'progress', component: ProgressPage },
+            { path: 'assignment', component: AssignmentPage },
+            { path: 'exam', component: ExamPage },
+            { path: 'profile', component: ProfilePage },
+            { path: 'assignment/submit/:assignmentId',component: AssignmentSubmit ,name:"AssignmentSubmit"}
+        ]
+    }
 
 ]
 
 const router = createRouter({
     history: createWebHistory(),
-    routes: routes,
+    routes
 })
 
-export default router;
+export default router

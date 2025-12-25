@@ -1,9 +1,4 @@
-<script setup lang="ts">
 
-import {ref} from "vue";
-
-const keyword = ref('')
-</script>
 
 <template>
     <div class="common-layout">
@@ -40,27 +35,89 @@ const keyword = ref('')
                 </div>
             </el-header>
             <el-container class="content">
-                <el-aside class="aside">
-                   <div class="aside-item">
-                       <el-card class="aside-card">
-                           课程管理
-                       </el-card>
-                   </div>
-                </el-aside>
-                <el-main class="main">
-                    <router-view></router-view>
+              <el-aside class="aside">
+                <div class="aside-item">
+
+                  <el-card
+                      class="aside-card"
+                      :class="{ active: route.path === '/home/courses' }"
+                      @click="go('/home/courses')"
+                  >
+                    所有课程
+                  </el-card>
+
+                  <el-card
+                      class="aside-card"
+                      :class="{ active: route.path === '/home/mycourses' }"
+                      @click="go('/home/mycourses')"
+                  >
+                    我的课程
+                  </el-card>
+
+                  <el-card
+                      class="aside-card"
+                      :class="{ active: route.path === '/home/progress' }"
+                      @click="go('/home/progress')"
+                  >
+                    学习进度
+                  </el-card>
+
+                  <el-card
+                      class="aside-card"
+                      :class="{ active: route.path === '/home/assignment' }"
+                      @click="go('/home/assignment')"
+                  >
+                    作业
+                  </el-card>
+
+                  <el-card
+                      class="aside-card"
+                      :class="{ active: route.path === '/home/exam' }"
+                      @click="go('/home/exam')"
+                  >
+                    考试
+                  </el-card>
+
+                  <el-card
+                      class="aside-card"
+                      :class="{ active: route.path === '/home/profile' }"
+                      @click="go('/home/profile')"
+                  >
+                    个人中心
+                  </el-card>
+
+                </div>
+              </el-aside>
+
+              <el-main class="main">
+
+                    <router-view/>
                 </el-main>
             </el-container>
         </el-container>
     </div>
 </template>
 
+<script setup>
+import {ref} from "vue";
+
+const keyword = ref('')
+import { useRouter, useRoute } from 'vue-router'
+
+const router = useRouter()
+const route = useRoute()
+
+const go = (path) => {
+  router.push(path)
+}
+</script>
+
 <style scoped lang="scss">
 .common-layout {
     width: 100vw;
     height: 100vh;
     .header {
-        height: 7vh;
+        height: 64px;
         background-color: #649D7F;
         display: flex;
         justify-content: flex-start;
@@ -108,7 +165,6 @@ const keyword = ref('')
         }
     }
     .content {
-        //border:1px solid green;
         width: 100%;
         .aside {
             height: 93vh;
@@ -129,6 +185,8 @@ const keyword = ref('')
             }
         }
         .main {
+          flex :1;
+          height: calc(100vh - 64px);
             width: 85vw;
             background-color: #F0F5F2;
         }

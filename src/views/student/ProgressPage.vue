@@ -8,13 +8,17 @@
 </template>
 
 <script>
-
 export default {
   data() {
-    return { progress: { courses: [] } }
+    return {
+      progress: {
+        courses: []
+      }
+    }
   },
   async mounted() {
-    this.progress = [
+    // 赋值给 progress.courses 而不是整个 progress
+    this.progress.courses = [
       { courseId: 1, courseName: '数据库原理', completed: 5, total: 10 },
       { courseId: 2, courseName: '操作系统', completed: 3, total: 10 }
     ]

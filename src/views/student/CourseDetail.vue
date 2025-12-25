@@ -1,48 +1,62 @@
 <template>
   <div class="container">
     <h2>{{ course.name }} - 章节列表</h2>
-    <p>教师：{{ course.teacher }}</p>
-
     <ul>
       <li v-for="ch in chapters" :key="ch.id">
-        <span>{{ ch.title }}</span>
-        <button @click="goChapter(ch)">查看详情</button>
+        {{ ch.title }}
+        <button @click="goToStudy(ch)">学习</button>
       </li>
     </ul>
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      course: {},
-      chapters: [],
-      enrolledCourseIds: [1] // 假设学生已报名的课程
-    }
-  },
-  mounted() {
-    const courseId = parseInt(this.$route.params.courseId)
-    if (!this.enrolledCourseIds.includes(courseId)) {
-      alert('你未报名该课程，无法查看章节内容！')
-      this.$router.push('/courses')
-      return
-    }
+<script lang="ts" setup>
+import { useRoute, useRouter } from 'vue-router'
+import { ref } from 'vue'
 
-    // 假数据
-    if (courseId === 1) {
-      this.course = { id: 1, name: '数据库原理', teacher: '张老师' }
-      this.chapters = [
-        { id: 1, title: '关系模型基础' },
-        { id: 2, title: 'SQL语言入门' }
-      ]
-    }
-  },
-  methods: {
-    goChapter(chapter) {
-      this.$router.push(`/course/${this.course.id}/chapter/${chapter.id}`)
-    }
-  }
+const route = useRoute()
+const router = useRouter()
+
+const courseId = Number(route.params.courseId)
+
+// 模拟课程数据
+const course = ref({ id: courseId, name: courseId === 1 ? '数据库原理' : '操作系统' })
+
+// 模拟章节数据
+const chapters = ref([
+  { id: 1, title: '关系模型基础' },
+  { id: 2, title: 'SQL语言入门' },
+  { id: 3, title: '索引与查询优化' }
+])
+
+function goToStudy(chapter: typeof chapters.value[0]) {
+  router.push(`${courseId}/chapter/${chapter.id}`)
 }
 </script>
+
+<style scoped>
+.container {
+  padding: 20px;
+}
+ul {
+  list-style: none;
+  padding: 0;
+}
+li {
+  margin-bottom: 10px;
+}
+button {
+  margin-left: 10px;
+  padding: 5px 10px;
+  background-color: #409eff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+button:hover {
+  background-color: #66b1ff;
+}
+</style>
+
 

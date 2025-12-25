@@ -16,6 +16,9 @@ import {faUser, faHouse,  faMagnifyingGlass} from "@fortawesome/free-solid-svg-i
 
 library.add(faUser, faHouse, faMagnifyingGlass);
 
+import 'element-plus/dist/index.css'
+
+
 const app = createApp(App)
 const pinia = createPinia()
 const persist = createPersistedState()
