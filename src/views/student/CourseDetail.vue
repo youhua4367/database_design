@@ -39,7 +39,7 @@ const chapters = ref([
   { id: 3, title: '索引与查询优化', progress: 0 }
 ])
 
-function goToStudy(chapter: typeof chapters.value[0]) {
+function goToStudy(chapter) {
   router.push(`/courses/${courseId}/chapter/${chapter.id}`)
 }
 </script>

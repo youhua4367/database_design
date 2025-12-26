@@ -33,7 +33,7 @@ const myCourses = [
 
 const router = useRouter()
 
-function goToChapters(course: typeof myCourses[0]) {
+function goToChapters(course) {
   router.push(`courses/${course.id}`)
 }
 </script>
