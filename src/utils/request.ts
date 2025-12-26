@@ -28,10 +28,10 @@ instance.interceptors.request.use(
 // 响应拦截器
 instance.interceptors.response.use(
     result => {
-        if (result.data.code === 1) {
+        if (result.data.code === 200) {
             return result.data;
         }
-        ElMessage.error(result.data.msg ? result.data.msg : '服务异常');
+        ElMessage.error(result.data.message ? result.data.message : '服务异常');
         return Promise.reject(result.data);
     },
     (error) => {
@@ -46,3 +46,5 @@ instance.interceptors.response.use(
         return Promise.reject(error);
     }
 )
+
+export default instance;

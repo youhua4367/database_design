@@ -1,9 +1,14 @@
 <script setup lang="ts">
-import { reactive } from 'vue'
-import type {FormRules} from "element-plus";
+import {reactive, ref} from 'vue'
+import {ElMessage, type FormInstance, type FormRules} from "element-plus";
 import {useRouter} from "vue-router";
+import type {User} from "@/types/user.ts";
+import {userLoginService} from "@/api/user.ts";
+import {useTokenStore} from "@/store/token.ts";
 
-const form = reactive({
+const tokenStore = useTokenStore();
+const formRef = ref<FormInstance>()
+const form: User = reactive({
     username: '',
     password: ''
 })
@@ -20,16 +25,29 @@ const rules: FormRules = {
     ]
 }
 
-const onSubmit = () => {
-    console.log('submit!')
-    router.push('/home')
+const onSubmit = async () => {
+    try {
+        await formRef.value?.validate()
+
+        const res = await userLoginService(form)
+
+        if (res.code === 200) {
+            tokenStore.setToken(res.token)
+            ElMessage.success("登陆成功！")
+            await router.push("/")
+        } else {
+            ElMessage.error(res.message || "登录失败!")
+        }
+    } catch (error) {
+        ElMessage.error("用户名或密码错误！")
+    }
 }
 </script>
 
 <template>
     <el-container class="wrapper">
         <el-card class="box-card">
-            <el-form :model="form" label-width="auto" class="login" :rules="rules">
+            <el-form :model="form" label-width="auto" class="login" :rules="rules" ref="formRef">
                 <el-form-item label="账户" prop="username" class="login-item">
                     <el-input v-model="form.username" type="text" autocomplete="off" class="login-input" />
                 </el-form-item>
