@@ -1,14 +1,6 @@
 import { createRouter, createWebHistory} from "vue-router";
 import type {RouteRecordRaw} from "vue-router";
-import {useTokenStore} from "@/store/token.ts";
 
-const routes: RouteRecordRaw[] = [
-    {path:"/", redirect: '/home'},
-    {path:"/login", component: () => import("@/views/Login.vue")},
-    {path:"/home", component: () => import("@/views/LayOut.vue"), children: [
-            {path:"/course", component: () => import("@/views/teacher/Course.vue")},
-        ]},
-    
 ]
 
 const router = createRouter({
