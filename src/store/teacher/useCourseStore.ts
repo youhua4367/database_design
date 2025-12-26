@@ -31,6 +31,9 @@ export const useCourseStore = defineStore("course", () => {
     });
     
     // 方法
+    /**
+     * 课程列表
+     */
     const getCourses = async () => {
         const res: ApiResponse = await courseGetService();
         try {
@@ -42,6 +45,10 @@ export const useCourseStore = defineStore("course", () => {
         }
     };
     
+    /**
+     * 创建课程
+     * @param course 课程实体
+     */
     const createCourse = async (course: CoursePost) => {
         
         try {
@@ -54,6 +61,11 @@ export const useCourseStore = defineStore("course", () => {
         }
     };
     
+    /**
+     * 更新课程
+     * @param courseId id
+     * @param course 课程
+     */
     const updateCourse = async (courseId: number, course: CoursePost) => {
         try {
             const res: ApiResponse = await courseUpdateService(courseId, course);
@@ -66,6 +78,9 @@ export const useCourseStore = defineStore("course", () => {
         }
     };
     
+    /**
+     * 获取课程的所有分类
+     */
     const getCategory = () => {
         category.value = []; // 先清空
         for (const course of courses.value) {
@@ -75,6 +90,10 @@ export const useCourseStore = defineStore("course", () => {
         }
     }
     
+    /**
+     * 获取课程学生
+     * @param courseId
+     */
     const getStudents = async (courseId: number) => {
         try {
             const res: ApiResponse = await courseGetStudentService(courseId);
@@ -87,6 +106,10 @@ export const useCourseStore = defineStore("course", () => {
         }
     };
     
+    /**
+     * 获取选择的课程
+     * @param courseId
+     */
     const getSelectedCourse = (courseId: number) => {
         selectedCourse.value = courses.value.find(course => course.courseId === courseId);
         selectedCourseId.value = courseId;

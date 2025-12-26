@@ -6,7 +6,7 @@
     <el-menu-item class="aside-card" index="/course">
         课程管理
     </el-menu-item>
-    <el-menu-item class="aside-card">
+    <el-menu-item class="aside-card" index="/chapter">
         上传内容
     </el-menu-item>
     <el-menu-item class="aside-card">

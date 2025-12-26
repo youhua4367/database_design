@@ -12,9 +12,9 @@ import "./assets/styles/global.css"
 
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 import {library} from "@fortawesome/fontawesome-svg-core";
-import {faUser, faHouse,  faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
+import {faUser, faHouse,  faMagnifyingGlass, faPenToSquare, faTrashCan} from "@fortawesome/free-solid-svg-icons";
 
-library.add(faUser, faHouse, faMagnifyingGlass);
+library.add(faUser, faHouse, faMagnifyingGlass, faPenToSquare, faTrashCan);
 
 const app = createApp(App)
 const pinia = createPinia()
