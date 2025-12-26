@@ -1,8 +1,23 @@
 <script setup lang="ts">
-
 import {ref} from "vue";
+import TeacherMenu from "@/components/TeacherMenu.vue";
+import { useRouter } from "vue-router";
+import {useTokenStore} from "@/store/token.ts";
+
+const router = useRouter();
+const tokensStore = useTokenStore();
 
 const keyword = ref('')
+
+// 切换菜单的变量
+const activeIndex = ref("/home") // 默认选中Home页菜单
+
+
+const logout = () =>{
+    tokensStore.removeToken()
+    router.push("/login")
+}
+
 </script>
 
 <template>
@@ -35,17 +50,21 @@ const keyword = ref('')
                         个人信息
                     </div>
                     <div>
-                        <el-button>退出登录</el-button>
+                        <el-button @click="logout">退出登录</el-button>
                     </div>
                 </div>
             </el-header>
+
             <el-container class="content">
-                <el-aside class="aside">
-                   <div class="aside-item">
-                       <el-card class="aside-card">
-                           课程管理
-                       </el-card>
-                   </div>
+                <el-aside class="aside" ref="asideContainer">
+                    <el-menu
+                        class="aside-item"
+                        mode="vertical"
+                        :default-active="activeIndex"
+                        router
+                        ref="menu">
+                        <TeacherMenu/>
+                    </el-menu>
                 </el-aside>
                 <el-main class="main">
                     <router-view></router-view>
@@ -59,6 +78,7 @@ const keyword = ref('')
 .common-layout {
     width: 100vw;
     height: 100vh;
+    overflow-x: hidden;
     .header {
         height: 7vh;
         background-color: #649D7F;
@@ -110,26 +130,35 @@ const keyword = ref('')
     .content {
         //border:1px solid green;
         width: 100%;
+        position: relative;
         .aside {
-            height: 93vh;
+            height: 100vh;
             width: 15%;
             background-color: #262F28;
-            .aside-item {
+            position: sticky;
+            top: 0;
+            :deep(.aside-item) {
                 width: 100%;
-                height: 8vh;
+                height: 100%;
+                background-color: transparent;
                 transition: all 0.3s ease;
-                :hover{
-                    background-color: #445A5D;
+
+               .aside-card {
+                   height: 8vh;
+                   line-height: 8vh;
+                   border-bottom: 1px solid #333;
+                   background-color: #fff;
+                   font-size: 1vw;
+               }
+                :hover {
+                    background-color: deepskyblue;
                     transform: translateY(-5px);
                     font-weight: bold;
-                }
-                .aside-card {
-                    font-size: 1vw;
                 }
             }
         }
         .main {
-            width: 85vw;
+            width: 85%;
             background-color: #F0F5F2;
         }
     }
