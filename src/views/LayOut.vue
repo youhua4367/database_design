@@ -53,13 +53,12 @@
                   >
                     我的课程
                   </el-card>
-
                   <el-card
                       class="aside-card"
-                      :class="{ active: route.path === '/home/progress' }"
-                      @click="go('/home/progress')"
+                      :class="{ active: route.path === '/home/postlist' }"
+                      @click="go('/home/postlist')"
                   >
-                    学习进度
+                    讨论区
                   </el-card>
 
                   <el-card
