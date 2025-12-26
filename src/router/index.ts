@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory} from "vue-router";
 import type {RouteRecordRaw} from "vue-router";
-import {useTokenStore} from "@/store/token.ts";
+
 
 const routes: RouteRecordRaw[] = [
     {path:"/", redirect: '/home'},
@@ -10,7 +10,6 @@ const routes: RouteRecordRaw[] = [
             {path:"/chapter", component: () => import("@/views/teacher/Chapter.vue")},
             {path:"/chapter/:id", component: () => import("@/views/teacher/ChapterInfo.vue")},
         ]},
-    
 ]
 
 const router = createRouter({
