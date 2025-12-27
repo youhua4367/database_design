@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory} from "vue-router";
 import type {RouteRecordRaw} from "vue-router";
-import {useTokenStore} from "@/store/token.ts";
+
 
 const routes: RouteRecordRaw[] = [
     {path:"/", redirect: '/home'},
