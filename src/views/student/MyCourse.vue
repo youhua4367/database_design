@@ -2,40 +2,64 @@
   <div class="container">
     <h2>我的课程</h2>
 
-    <div class="course" v-for="c in myCourses" :key="c.id">
-      <h3>{{ c.name }}</h3>
-      <p>教师：{{ c.teacher }}</p>
+    <div class="course" v-for="c in myCourses" :key="c.courseId">
+      <h3>{{ c.courseName }}</h3>
+      <p>教师：{{ c.teacherName || '未知' }}</p>
 
       <!-- 学习进度 -->
       <div class="progress-wrapper">
-        <span class="progress-text">学习进度：{{ c.progress }}%</span>
+        <span class="progress-text">学习进度：{{ c.progress || 0 }}%</span>
         <div class="progress-bar">
           <div
               class="progress-inner"
-              :style="{ width: c.progress + '%' }"
+              :style="{ width: (c.progress || 0) + '%' }"
           ></div>
         </div>
       </div>
 
       <button @click="goToChapters(c)">查看章节</button>
     </div>
+
+    <p v-if="myCourses.length === 0">暂无已报名课程</p>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-
-// 模拟已报名课程 + 学习进度
-const myCourses = [
-  { id: 1, name: '数据库原理', teacher: '张老师', progress: 60 },
-  { id: 2, name: '操作系统', teacher: '李老师', progress: 30 }
-]
+import axios from 'axios'
 
 const router = useRouter()
+const myCourses = ref<any[]>([])
 
-function goToChapters(course) {
-  router.push(`courses/${course.id}`)
+async function fetchMyCourses() {
+  try {
+    const res = await axios.get('/StudentCourseController/my-courses')
+    if (res.data.code === 200) {
+      // 假设接口返回 Enrollment 对象，包含 course 信息和学习进度
+      myCourses.value = res.data.data.map((enrollment: any) => ({
+        courseId: enrollment.course.courseId,
+        courseName: enrollment.course.courseName,
+        teacherName: enrollment.course.teacherName || '未知',
+        progress: enrollment.progress || 0
+      }))
+    } else {
+      alert(res.data.msg)
+    }
+  } catch (err) {
+    console.error(err)
+    alert('加载已报名课程失败')
+  }
 }
+
+function goToChapters(course: any) {
+  router.push(`/courses/${course.courseId}`)
+}
+
+// 页面加载时请求数据
+onMounted(() => {
+  fetchMyCourses()
+})
 </script>
 
 

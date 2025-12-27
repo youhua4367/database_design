@@ -19,29 +19,30 @@ const rules: FormRules = {
         { required: true, message: '请输入用户名', trigger: ['blur', 'change'] },
         { min: 3, max: 12, message: '用户名长度在3到12个字符', trigger: ['blur','change'] }
     ],
-    password: [
-        { required: true, message: '请输入密码', trigger: 'blur' },
-        { min: 6, message: '密码不能少于 6 位', trigger: 'blur' }
-    ]
-}
+  password: [
+    { required: true, message: '请输入密码', trigger: ['blur', 'change'] },
+    { min: 6, message: '密码不能少于 6 位', trigger: ['blur', 'change'] }
+  ]
 
+}
+ const goRegister = () => {
+  router.push('/register')
+ }
 const onSubmit = async () => {
-    try {
-        await formRef.value?.validate()
-
-        const res = await userLoginService(form)
-
-        if (res.code === 200) {
-            tokenStore.setToken(res.token)
-            ElMessage.success("登陆成功！")
-            await router.push("/")
-        } else {
-            ElMessage.error(res.message || "登录失败!")
-        }
-    } catch (error) {
-        ElMessage.error("用户名或密码错误！")
-    }
+  // 假登录逻辑
+  const fakeStudent = {
+    userId: 1,
+    username: "student01",
+    role: 1,
+    token: "fake-jwt-token-123456"
+  }
+  localStorage.setItem('studentLoggedIn', 'true')
+  localStorage.setItem('studentToken', fakeStudent.token)
+  localStorage.setItem('studentInfo', JSON.stringify(fakeStudent))
+  ElMessage.success('登录成功（假数据）')
+  router.push('/home/courses')
 }
+
 </script>
 
 <template>
@@ -58,7 +59,7 @@ const onSubmit = async () => {
                     <el-button type="primary" @click="onSubmit" class="login-button" style="margin-top: 3vh">登录</el-button>
                 </el-form-item>
                 <el-form-item class="login-item">
-                    <el-button class="login-button">注册</el-button>
+                    <el-button class="login-button" @click="goRegister">注册</el-button>
                 </el-form-item>
             </el-form>
         </el-card>

@@ -1,48 +1,55 @@
 <template>
   <div class="container">
-    <h2>{{ course.name }} - 章节列表</h2>
-    <ul>
-      <li v-for="ch in chapters" :key="ch.id" class="chapter-item">
+    <h2>{{ course?.courseName || '加载中...' }} - 章节列表</h2>
 
-
-        <!-- 章节标题 -->
+    <ul v-if="chapters.length > 0">
+      <li v-for="ch in chapters" :key="ch.chapterId" class="chapter-item">
         <span class="chapter-title">{{ ch.title }}</span>
-
-        <span class="chapter-progress">
-          <span v-if="ch.progress === 100" class="done">已完成</span>
-          <span v-else-if="ch.progress === 0" class="not-start">未学习</span>
-          <span v-else class="doing">{{ ch.progress }}%</span>
-        </span>
-
         <button @click="goToStudy(ch)">学习</button>
       </li>
     </ul>
+
+    <p v-else>暂无章节信息</p>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { ref } from 'vue'
+import axios from 'axios'
 
 const route = useRoute()
 const router = useRouter()
-
 const courseId = Number(route.params.courseId)
 
-// 模拟课程数据
-const course = ref({ id: courseId, name: courseId === 1 ? '数据库原理' : '操作系统' })
+const course = ref<any>(null)
+const chapters = ref<any[]>([])
 
-// 模拟章节数据，增加 progress 字段表示学习进度
-const chapters = ref([
-  { id: 1, title: '关系模型基础', progress: 100 },
-  { id: 2, title: 'SQL语言入门', progress: 50 },
-  { id: 3, title: '索引与查询优化', progress: 0 }
-])
-
-function goToStudy(chapter) {
-  router.push(`/courses/${courseId}/chapter/${chapter.id}`)
+async function fetchCourseDetail() {
+  try {
+    const res = await axios.get(`/StudentCourseController/${courseId}`)
+    if (res.data.code === 200) {
+      course.value = res.data.data
+      chapters.value = res.data.data.chapters || []
+    } else {
+      alert(res.data.msg)
+    }
+  } catch (err) {
+    console.error(err)
+    alert('加载课程信息失败')
+  }
 }
+
+function goToStudy(chapter: any) {
+  router.push(`/courses/${courseId}/chapter/${chapter.chapterId}`)
+}
+
+onMounted(() => {
+  fetchCourseDetail()
+})
 </script>
+
+
 
 <style scoped>
 .container {
