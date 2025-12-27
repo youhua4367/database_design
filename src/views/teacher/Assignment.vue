@@ -2,7 +2,7 @@
 import { ref, onMounted, computed } from "vue";
 import { useRoute } from "vue-router";
 import { ElMessage, ElMessageBox } from "element-plus";
-import { useAssignmentStore } from "@/store/teacher/useAssignmentStore.ts";
+import { useAssignmentStore } from "@/store/teacher/assignment.ts";
 import type { Assignment } from "@/types/teacher/assignment.ts";
 
 const route = useRoute();
