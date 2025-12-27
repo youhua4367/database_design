@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {onMounted, ref} from "vue";
-import {useCourseStore} from "@/store/teacher/useCourseStore.ts";
+import {useCourseStore} from "@/store/teacher/course.ts";
 import type {CoursePost} from "@/types/teacher/course.ts";
 import {ElMessage} from "element-plus";
 import {useCategoryStore} from "@/store/user/useCategory.ts";

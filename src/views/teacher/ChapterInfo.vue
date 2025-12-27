@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import {useRoute} from "vue-router";
 import {computed, onMounted, ref} from "vue";
-import {useCourseStore} from "@/store/teacher/useCourseStore.ts";
+import {useCourseStore} from "@/store/teacher/course.ts";
 import avatar from "@/assets/image/login.png"
-import {useChapterStore} from "@/store/teacher/useChapterStore.ts";
+import {useChapterStore} from "@/store/teacher/chapter.ts";
 import type {Chapter} from "@/types/teacher/chapter.ts";
 import {ElMessage, ElMessageBox} from "element-plus";
 

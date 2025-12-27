@@ -1,6 +1,6 @@
 import request from "@/utils/request.ts";
 import type { ApiResponse } from "@/types/api";
-import type { Exam } from "@/types/teacher/exam.ts";
+import type {Exam, ExamForm} from "@/types/teacher/exam.ts";
 
 /**
  * 获取指定课程的所有考试列表
@@ -61,4 +61,31 @@ export const examUpdateService = (exam: Exam): Promise<ApiResponse> => {
  */
 export const examDeleteService = (examId: number): Promise<ApiResponse> => {
     return request.delete(`/TeacherExamController/${examId}`);
+}
+
+
+/**
+ * 为指定学生录入考试成绩
+ * @param examForm 提交表单
+ */
+export const examResultCreateService = (examForm: ExamForm): Promise<ApiResponse> => {
+    return request.post(
+        "/TeacherExamResultController/create",
+        null,
+        {
+            params:{
+                studentId: examForm.studentId,
+                examId: examForm.examId,
+                grade: examForm.grade,
+                feedback: examForm.feedback,
+            }
+        }
+    );
+}
+
+/**
+ * 获取指定考试的所有学生成绩
+ */
+export const examResultGetService = (examId: number): Promise<ApiResponse> => {
+    return request.get(`/TeacherExamResultController/exam/${examId}`);
 }

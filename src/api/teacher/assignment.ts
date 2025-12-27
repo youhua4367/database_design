@@ -1,6 +1,6 @@
 import request from "@/utils/request.ts"
 import type { ApiResponse } from "@/types/api"
-import type {Assignment} from "@/types/teacher/assignment.ts";
+import type {Assignment, AssignmentForm} from "@/types/teacher/assignment.ts";
 
 /**
  * 获取作业列表
@@ -58,3 +58,27 @@ export const assignmentUpdateService = (
         }
     )
 }
+
+/**
+ * 获取指定作业的所有提交
+ */
+export const assignmentResultGetService = (assignmentId: number): Promise<ApiResponse> => {
+    return request.get(`/TeacherSubmissionController/assignment/${assignmentId}`);
+};
+
+/**
+ * 批改作业
+ */
+export const assignmentResultCreateService = (form: AssignmentForm): Promise<ApiResponse> => {
+    return request.put(
+        `/TeacherSubmissionController/${form.submissionId}/grade`,
+        null,
+        {
+            params: {
+                submissionId: form.submissionId,
+                score: form.score,
+                feedback: form.feedback
+            }
+        }
+    );
+};

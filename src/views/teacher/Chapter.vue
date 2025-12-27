@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {onMounted} from "vue";
-import {useCourseStore} from "@/store/teacher/useCourseStore.ts";
+import {useCourseStore} from "@/store/teacher/course.ts";
 import CourseList from "@/components/CourseList.vue";
 import {useRouter} from "vue-router";
 

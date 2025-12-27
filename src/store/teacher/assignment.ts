@@ -1,13 +1,13 @@
 import { defineStore } from "pinia"
 import { ref, computed } from "vue"
-import type { Assignment } from "@/types/teacher/assignment.ts"
+import type {Assignment, AssignmentForm, AssignmentResult} from "@/types/teacher/assignment.ts"
 import type { ApiResponse } from "@/types/api"
 
 import {
     assignmentGetService,
     assignmentCreateService,
     assignmentDeleteService,
-    assignmentUpdateService
+    assignmentUpdateService, assignmentResultGetService, assignmentResultCreateService
 } from "@/api/teacher/assignment.ts"
 
 export const useAssignmentStore = defineStore("assignment", () => {
@@ -98,3 +98,66 @@ export const useAssignmentStore = defineStore("assignment", () => {
         selectAssignment
     }
 })
+
+export const useAssignmentResultStore = defineStore("assignmentResult", () => {
+    // 所有提交记录
+    const submissions = ref<AssignmentResult[]>([]);
+    const selectedAssignmentId = ref<number | null>(null);
+    const selectedStudentId = ref<number | null>(null);
+    
+    // 当前选中学生提交
+    const selectedStudentSubmission = computed(() => {
+        if (selectedAssignmentId.value === null || selectedStudentId.value === null) return null;
+        return submissions.value.find(
+            s => s.assignmentId === selectedAssignmentId.value && s.studentId === selectedStudentId.value
+        );
+    });
+    
+    /**
+     * 获取作业提交列表
+     */
+    const getSubmissionsByAssignment = async (assignmentId: number) => {
+        try {
+            const res: ApiResponse = await assignmentResultGetService(assignmentId);
+            if (res.code === 200) {
+                submissions.value = res.data || [];
+            }
+        } catch (error) {
+            console.error("获取作业提交失败", error);
+        }
+    };
+    
+    /**
+     * 批改作业
+     */
+    const gradeSubmission = async (form: AssignmentForm) => {
+        try {
+            const res: ApiResponse = await assignmentResultCreateService(form);
+            if (res.code === 200) {
+                // 批改后刷新列表
+                await getSubmissionsByAssignment(selectedAssignmentId.value!);
+            }
+            return res;
+        } catch (error) {
+            console.error("批改作业失败", error);
+        }
+    };
+    
+    /**
+     * 选中某个学生的提交
+     */
+    const selectStudent = (studentId: number, assignmentId: number) => {
+        selectedStudentId.value = studentId;
+        selectedAssignmentId.value = assignmentId;
+    };
+    
+    return {
+        submissions,
+        selectedAssignmentId,
+        selectedStudentId,
+        selectedStudentSubmission,
+        getSubmissionsByAssignment,
+        gradeSubmission,
+        selectStudent
+    };
+});

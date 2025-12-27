@@ -16,9 +16,6 @@
         学生管理
     </el-menu-item>
     <el-menu-item class="aside-card">
-        作业批改
-    </el-menu-item>
-    <el-menu-item class="aside-card">
         讨论区
     </el-menu-item>
 
