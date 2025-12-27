@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import {onMounted, ref} from "vue";
-import avatar from '@/assets/image/login.png'
 import {useCourseStore} from "@/store/teacher/useCourseStore.ts";
 import type {CoursePost} from "@/types/teacher/course.ts";
 import {ElMessage} from "element-plus";
 import {useCategoryStore} from "@/store/user/useCategory.ts";
+import CourseList from "@/components/CourseList.vue";
 
-// 图片
-const img = avatar
 // 课程存储
 const categoryStore = useCategoryStore()
 const courseStore = useCourseStore()
@@ -54,16 +52,11 @@ const addCourse = async () => {
     }
 }
 
-// // 展示课程学生
-// const showStudent = (courseId: number) =>{
-//     courseStore.getStudents(courseId)
-//     studentDialogVisible.value = true;
-// }
-
 const updateCourse = () => {
     courseStore.updateCourse(courseStore.selectedCourseId, updateForm.value);
     updateDialogVisible.value = false;
     ElMessage.success("更改课程信息成功！")
+
 }
 
 const showUpdateForm = async (courseId: number) => {
@@ -91,26 +84,10 @@ onMounted(() => {
 
         </el-header>
         <!--主体内容-->
-        <el-container class="content">
-            <div class="course"
-                 v-for="(courseList, categoryName) in courseStore.coursesByCategory">
-                <div class="course-header">
-                    <el-header>{{ categoryName }}</el-header>
-                </div>
-                <div class="course-card">
-                    <el-card class="course-item"
-                             v-for="course in courseList"
-                             :key="course.courseId"
-                             @click="showUpdateForm(course.courseId)"
-                             style="cursor: pointer;">
-                        <img :src="img" alt="" width="200px" height="200px">
-                        <div>{{ course.courseName }}</div>
-                        <div>{{ course.description }}</div>
-                    </el-card>
-                </div>
-            </div>
-
-        </el-container>
+        <CourseList
+            :courses-by-category="courseStore.coursesByCategory"
+            @course-click="showUpdateForm"
+        />
 
         <!--新增课程弹窗-->
         <el-dialog v-model="dialogFormVisible"
@@ -176,7 +153,7 @@ onMounted(() => {
                 </div>
             </template>
         </el-dialog>
-        <!--学生详情弹窗 -->
+        <!--更新课程弹窗 -->
         <el-dialog v-model="updateDialogVisible"
                    title="修改课程"
                    width="30vw"
@@ -233,7 +210,7 @@ onMounted(() => {
 
             <template #footer>
                 <div class="dialog-footer">
-                    <el-button @click="dialogFormVisible = false">取消</el-button>
+                    <el-button @click="updateDialogVisible = false">取消</el-button>
                     <el-button type="primary" @click="updateCourse">
                         确定
                     </el-button>
@@ -251,46 +228,6 @@ onMounted(() => {
         display: flex;
         justify-content: flex-start;
         background-color: deepskyblue;
-    }
-    .content {
-        width: 100%;
-        height: 100%;
-
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        .course {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            .course-header {
-                width: 100%;
-                font-size: 2.6vw;
-                display: flex;
-                justify-content: flex-start;
-            }
-            .course-card {
-                width: 100%;
-                display: flex;
-                justify-content: flex-start;
-                align-items: center;
-                flex-wrap: wrap;
-
-                .course-item {
-                    width: 23%;
-                    margin-right: 2%;
-                    margin-top: 1%;
-                    transition: all 0.3s ease;
-                }
-                .course-item:hover {
-                    transform: translateY(-5px);
-                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-                }
-            }
-        }
     }
 
     :deep(.course-add-dialog) {

@@ -1,46 +1,38 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory} from "vue-router";
+import type {RouteRecordRaw} from "vue-router";
+import {useTokenStore} from "@/store/token.ts";
 
-
-import CourseEnroll from "@/views/student/CourseEnroll.vue";
-import CourseList from '@/views/student/CourseList.vue'
-import CourseDetail from '@/views/student/CourseDetail.vue'
-import ChapterDetail from '@/views/student/ChapterDetail.vue'
-import MyCourse from "@/views/student/MyCourse.vue";
-import AssignmentPage from "@/views/student/AssignmentPage.vue";
-import ExamPage from "@/views/student/ExamPage.vue";
-import ProfilePage from "@/views/student/ProfilePage.vue";
-import LayOut from "@/views/LayOut.vue";
-import AssignmentSubmit from "@/views/student/AssignmentSubmit.vue";
-import PostList from "@/views/student/PostList.vue";
-import PostDetail from "@/views/student/PostDetail.vue";
 const routes: RouteRecordRaw[] = [
-    { path: '', redirect: '/home' },
-    {
-        path: '/home',
-        component: LayOut,
-        children: [
-
-
-            { path: 'courses', component: CourseList },
-            { path: 'courses/:courseId', component: CourseDetail },
-            { path: 'courses/:courseId/chapter/:chapterId', component: ChapterDetail },
-            { path: 'courses/:courseId/enroll', component: CourseEnroll },
-            { path: 'mycourses', component: MyCourse },
-            { path: 'assignment', component: AssignmentPage },
-            { path: 'exam', component: ExamPage },
-            { path: 'profile', component: ProfilePage },
-            { path: 'assignment/submit/:assignmentId',component: AssignmentSubmit ,name:"AssignmentSubmit"},
-            { path: 'postlist', component: PostList },
-            { path: 'postdetail/:postId', name: "PostDetail", component: PostDetail }
-
-        ]
-    }
-
+    {path:"/", redirect: '/home'},
+    {path:"/login", component: () => import("@/views/Login.vue")},
+    {path:"/home", component: () => import("@/views/LayOut.vue"), children: [
+            {path:"course", component: () => import("@/views/teacher/Course.vue")},
+            {path:"chapter", component: () => import("@/views/teacher/Chapter.vue")},
+            {path:"chapter/:id", component: () => import("@/views/teacher/ChapterInfo.vue")},
+            {path:"exam", component: () => import("@/views/teacher/ExamLayout.vue")},
+            {path:"exam/:id", component: () => import("@/views/teacher/ExamInfo.vue"), children: [
+                    {path:"exam", component: () => import("@/views/teacher/Exam.vue")},
+                    {path:"assignment", component: () => import("@/views/teacher/Assignment.vue")},
+                ]},
+            {path:"person", component: () => import("@/views/teacher/StudentLayout.vue")},
+            {path:"person/:id", component: () => import("@/views/teacher/Student.vue")},
+        ]},
 ]
 
 const router = createRouter({
     history: createWebHistory(),
-    routes
+    routes: routes,
 })
 
-export default router
+// 守卫路由
+router.beforeEach((to) => {
+    const tokenStore = useTokenStore()
+    console.log("访问路由:", to.path, "token:", tokenStore.token)
+    
+    if (to.path === '/login' && tokenStore.token) return '/home'
+    if (to.path !== '/login' && !tokenStore.token) return '/login'
+})
+
+
+
+export default router;
