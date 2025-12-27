@@ -6,11 +6,15 @@ const routes: RouteRecordRaw[] = [
     {path:"/", redirect: '/home'},
     {path:"/login", component: () => import("@/views/Login.vue")},
     {path:"/home", component: () => import("@/views/LayOut.vue"), children: [
-            {path:"/course", component: () => import("@/views/teacher/Course.vue")},
-            {path:"/chapter", component: () => import("@/views/teacher/Chapter.vue")},
-            {path:"/chapter/:id", component: () => import("@/views/teacher/ChapterInfo.vue")},
+            {path:"course", component: () => import("@/views/teacher/Course.vue")},
+            {path:"chapter", component: () => import("@/views/teacher/Chapter.vue")},
+            {path:"chapter/:id", component: () => import("@/views/teacher/ChapterInfo.vue")},
+            {path:"exam", component: () => import("@/views/teacher/ExamLayout.vue")},
+            {path:"exam/:id", component: () => import("@/views/teacher/ExamInfo.vue"), children: [
+                    {path:"exam", component: () => import("@/views/teacher/Exam.vue")},
+                    {path:"assignment", component: () => import("@/views/teacher/Assignment.vue")},
+                ]},
         ]},
-    
 ]
 
 const router = createRouter({

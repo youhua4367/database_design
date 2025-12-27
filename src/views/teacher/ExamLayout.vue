@@ -9,8 +9,8 @@ const router = useRouter();
 // 课程存储
 const courseStore = useCourseStore()
 
-const handleClick = (courseId: number) => {
-    router.push(`/home/chapter/${courseId}`);
+const handleClick = (examId: number) => {
+    router.push(`/home/exam/${examId}`);
 }
 
 onMounted(() => {
@@ -22,10 +22,10 @@ onMounted(() => {
 <template>
     <el-container class="wrapper">
         <!--主体内容-->
-       <CourseList
+        <CourseList
             :courses-by-category="courseStore.coursesByCategory"
             @course-click="handleClick"
-       />
+        />
 
 
     </el-container>

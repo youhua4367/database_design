@@ -153,7 +153,7 @@ onMounted(() => {
                 </div>
             </template>
         </el-dialog>
-        <!--学生详情弹窗 -->
+        <!--更新课程弹窗 -->
         <el-dialog v-model="updateDialogVisible"
                    title="修改课程"
                    width="30vw"
