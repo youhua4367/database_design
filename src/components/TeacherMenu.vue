@@ -12,7 +12,7 @@
     <el-menu-item class="aside-card" index="/home/exam">
         作业和考试
     </el-menu-item>
-    <el-menu-item class="aside-card">
+    <el-menu-item class="aside-card" index="/home/person">
         学生管理
     </el-menu-item>
     <el-menu-item class="aside-card">
