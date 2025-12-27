@@ -1,10 +1,8 @@
 <script setup lang="ts">
 import {useRoute} from "vue-router";
 import {computed, onMounted} from "vue";
-import avatar from "@/assets/image/login.png";
 import {useCourseStore} from "@/store/teacher/useCourseStore.ts";
 
-const image = avatar
 const route = useRoute();
 const courseId = computed<number>(() => {
     return Number(route.params.id);
