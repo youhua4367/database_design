@@ -88,8 +88,8 @@ const deleteExam = async (examId: number) => {
     }
 }
 
-onMounted(() => {
-    getExams();
+onMounted(async () => {
+    await getExams();
 });
 </script>
 

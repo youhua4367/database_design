@@ -4,9 +4,14 @@ import {useTokenStore} from "@/store/token.ts";
 
 
 const routes: RouteRecordRaw[] = [
-    {path:"/", redirect: '/home'},
+    {path:"/", redirect: '/login'},
     {path:"/login", component: () => import("@/views/Login.vue")},
-    {path:"/home", component: () => import("@/views/LayOut.vue"), children: [
+    // 教师端
+    {path:"/teacher/home",
+        component: () => import("@/views/LayOut.vue"),
+        redirect: "/teacher/home/course",
+        meta:{role: 2},
+        children: [
             // 课程
             {path:"course", component: () => import("@/views/teacher/Course.vue")},
             // 章节
@@ -25,6 +30,9 @@ const routes: RouteRecordRaw[] = [
             // 学生管理
             {path:"person", component: () => import("@/views/teacher/StudentLayout.vue")},
             {path:"person/:id", component: () => import("@/views/teacher/Student.vue")},
+            // 评论区
+            {path:"comment", component: () => import("@/views/teacher/CommentLayout.vue")},
+            {path:"comment/:id", component: () => import("@/views/teacher/Comment.vue")},
         ]},
 ]
 
@@ -35,12 +43,23 @@ const router = createRouter({
 
 // 守卫路由
 router.beforeEach((to) => {
-    const tokenStore = useTokenStore()
-    console.log("访问路由:", to.path, "token:", tokenStore.token)
+    const tokenStore = useTokenStore();
     
-    if (to.path === '/login' && tokenStore.token) return '/home'
-    if (to.path !== '/login' && !tokenStore.token) return '/login'
-})
+    if (!tokenStore.token && to.path !== "/login") return "/login";
+    
+    if (to.path === "/login" && tokenStore.token) {
+        switch (tokenStore.role) {
+            case 1: return "/student/home";
+            case 2: return "/teacher/home";
+            case 3: return "/admin/home";
+        }
+    }
+    
+    if (to.meta.role) {
+        const allowedRoles: number[] = Array.isArray(to.meta.role) ? to.meta.role : [to.meta.role];
+        if (!allowedRoles.includes(tokenStore.role)) return "/403";
+    }
+});
 
 
 

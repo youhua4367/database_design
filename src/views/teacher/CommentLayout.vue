@@ -9,8 +9,8 @@ const router = useRouter();
 // 课程存储
 const courseStore = useCourseStore()
 
-const handleClick = (examId: number) => {
-    router.push(`/teacher/home/exam/${examId}`);
+const handleClick = (courseId: number) => {
+    router.push(`/teacher/home/comment/${courseId}`);
 }
 
 onMounted(async () => {
