@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import {ref} from "vue";
-import TeacherMenu from "@/components/TeacherMenu.vue";
 import { useRouter } from "vue-router";
 import {useTokenStore} from "@/store/token.ts";
+import AdminMenu from "@/components/AdminMenu.vue";
 
 const router = useRouter();
 const tokensStore = useTokenStore();
@@ -10,7 +10,7 @@ const tokensStore = useTokenStore();
 const keyword = ref('')
 
 // 切换菜单的变量
-const activeIndex = ref("/home") // 默认选中Home页菜单
+const activeIndex = ref("/admin/home") // 默认选中Home页菜单
 
 
 const logout = () =>{
@@ -63,7 +63,7 @@ const logout = () =>{
                         :default-active="activeIndex"
                         router
                         ref="menu">
-                        <TeacherMenu/>
+                        <AdminMenu/>
                     </el-menu>
                 </el-aside>
                 <el-main class="main">
@@ -143,13 +143,13 @@ const logout = () =>{
                 background-color: transparent;
                 transition: all 0.3s ease;
 
-               .aside-card {
-                   height: 8vh;
-                   line-height: 8vh;
-                   border-bottom: 1px solid #333;
-                   background-color: #fff;
-                   font-size: 1vw;
-               }
+                .aside-card {
+                    height: 8vh;
+                    line-height: 8vh;
+                    border-bottom: 1px solid #333;
+                    background-color: #fff;
+                    font-size: 1vw;
+                }
                 :hover {
                     background-color: deepskyblue;
                     transform: translateY(-5px);
