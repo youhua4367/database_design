@@ -8,7 +8,7 @@ const routes: RouteRecordRaw[] = [
     {path:"/login", component: () => import("@/views/Login.vue")},
     // 教师端
     {path:"/teacher/home",
-        component: () => import("@/views/LayOut.vue"),
+        component: () => import("@/views/teacher/LayOut.vue"),
         redirect: "/teacher/home/course",
         meta:{role: 2},
         children: [
@@ -33,6 +33,15 @@ const routes: RouteRecordRaw[] = [
             // 评论区
             {path:"comment", component: () => import("@/views/teacher/CommentLayout.vue")},
             {path:"comment/:id", component: () => import("@/views/teacher/Comment.vue")},
+        ]},
+    
+    {path:"/admin/home",
+        component: () => import("@/views/admin/LayOut.vue"),
+        redirect:"/admin/home/category",
+        meta:{role: 3},
+        children: [
+            {path:"category", component: () => import("@/views/admin/Category.vue")},
+            {path:"user", component: () => import("@/views/admin/User.vue")},
         ]},
 ]
 
