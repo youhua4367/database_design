@@ -41,6 +41,7 @@ const routes: RouteRecordRaw[] = [
         meta:{role: 3},
         children: [
             {path:"category", component: () => import("@/views/admin/Category.vue")},
+            {path:"user", component: () => import("@/views/admin/User.vue")},
         ]},
 ]
 
