@@ -70,10 +70,10 @@ const showUpdateForm = async (courseId: number) => {
     updateDialogVisible.value = true
 }
 
-onMounted(() => {
-    courseStore.getCourses();
+onMounted(async () => {
+    await courseStore.getCourses();
     courseStore.getCategory();
-    categoryStore.getCategoryList();
+    await categoryStore.getCategoryList();
 })
 </script>
 

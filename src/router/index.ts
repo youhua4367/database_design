@@ -25,6 +25,9 @@ const routes: RouteRecordRaw[] = [
             // 学生管理
             {path:"person", component: () => import("@/views/teacher/StudentLayout.vue")},
             {path:"person/:id", component: () => import("@/views/teacher/Student.vue")},
+            // 评论区
+            {path:"comment", component: () => import("@/views/teacher/CommentLayout.vue")},
+            {path:"comment/:id", component: () => import("@/views/teacher/Comment.vue")},
         ]},
 ]
 

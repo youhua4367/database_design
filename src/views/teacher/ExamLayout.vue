@@ -13,8 +13,8 @@ const handleClick = (examId: number) => {
     router.push(`/home/exam/${examId}`);
 }
 
-onMounted(() => {
-    courseStore.getCourses();
+onMounted(async () => {
+    await courseStore.getCourses();
     courseStore.getCategory();
 })
 </script>
