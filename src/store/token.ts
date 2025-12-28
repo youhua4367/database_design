@@ -1,28 +1,32 @@
 import {defineStore} from "pinia";
 import {ref} from "vue";
+import type {UserLogin} from "@/types/user.ts";
 
 
 export const useTokenStore = defineStore("token", () => {
-    // 定义token
     const token = ref("")
+    const role = ref(0)  // 1=学生, 2=教师, 3=管理员
+    const username = ref("")
     
-    // 定义修改 token 的方法
-    const setToken = (newToken: string) => {
-        token.value = newToken
+    const setToken = (loginData: UserLogin) => {
+        token.value = loginData.token
+        role.value = loginData.role
+        username.value = loginData.username
     }
     
-    // 删除token
     const removeToken = () => {
-        token.value = ''
+        token.value = ""
+        role.value = 0
+        username.value = ""
     }
     
     return {
         token,
+        role,
+        username,
         setToken,
-        removeToken,
+        removeToken
     }
-},
-    {
-        persist: true,
-    }
-)
+}, {
+    persist: true
+})

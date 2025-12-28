@@ -30,12 +30,12 @@ const getAssignments = async () => {
 
 // 选中某一考试并跳转到批改页面
 const goToExamCorrection = (examId: number) => {
-    router.push(`/home/exam/${courseId.value}/correct2/${examId}`);
+    router.push(`/teacher/home/exam/${courseId.value}/correct2/${examId}`);
 }
 
 // 跳转到作业批改页面
 const goToAssignmentPage = (assignmentId: number) => {
-    router.push(`/home/exam/${courseId.value}/correct1/${assignmentId}`);
+    router.push(`/teacher/home/exam/${courseId.value}/correct1/${assignmentId}`);
 }
 
 
@@ -52,8 +52,8 @@ onMounted(async () => {
         <el-aside class="aside">
             <el-header class="header"> {{ courseStore.selectedCourse?.courseName }} </el-header>
             <el-menu router>
-                <el-menu-item :index="`/home/exam/${courseId}/assignment`">作业布置</el-menu-item>
-                <el-menu-item :index="`/home/exam/${courseId}/exam`">考试布置</el-menu-item>
+                <el-menu-item :index="`/teacher/home/exam/${courseId}/assignment`">作业布置</el-menu-item>
+                <el-menu-item :index="`/teacher/home/exam/${courseId}/exam`">考试布置</el-menu-item>
 
                 <el-sub-menu index="gradeMenu">
                     <template #title>作业批改</template>

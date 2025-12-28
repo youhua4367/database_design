@@ -10,7 +10,7 @@ const router = useRouter();
 const courseStore = useCourseStore()
 
 const handleClick = (courseId: number) => {
-    router.push(`/home/person/${courseId}`);
+    router.push(`/teacher/home/person/${courseId}`);
 }
 
 onMounted(async () => {

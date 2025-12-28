@@ -2,7 +2,7 @@
 import {reactive, ref} from 'vue'
 import {ElMessage, type FormInstance, type FormRules} from "element-plus";
 import {useRouter} from "vue-router";
-import type {User} from "@/types/user.ts";
+import type {User, UserLogin} from "@/types/user.ts";
 import {userLoginService} from "@/api/user.ts";
 import {useTokenStore} from "@/store/token.ts";
 
@@ -28,18 +28,32 @@ const rules: FormRules = {
 const onSubmit = async () => {
     try {
         await formRef.value?.validate()
-
-        const res = await userLoginService(form)
-
+        const res = await userLoginService(form); // form里有username/password
         if (res.code === 200) {
-            tokenStore.setToken(res.token)
-            ElMessage.success("登陆成功！")
-            await router.push("/")
+            const loginData: UserLogin = {
+                username: res.data.username,
+                role: res.data.role,
+                token: res.token
+            }
+            tokenStore.setToken(loginData);
+            ElMessage.success("登录成功！");
+            // 根据角色跳转首页
+            switch (loginData.role) {
+                case 1:
+                    await router.push("/student/home");
+                    break;
+                case 2:
+                    await router.push("/teacher/home");
+                    break;
+                case 3:
+                    await router.push("/admin/home");
+                    break;
+            }
         } else {
-            ElMessage.error(res.message || "登录失败!")
+            ElMessage.error(res.message || "登录失败");
         }
-    } catch (error) {
-        ElMessage.error("用户名或密码错误！")
+    } catch (err) {
+        ElMessage.error("用户名或密码错误");
     }
 }
 </script>
