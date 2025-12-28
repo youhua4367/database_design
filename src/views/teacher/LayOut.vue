@@ -3,6 +3,8 @@ import {ref} from "vue";
 import TeacherMenu from "@/components/TeacherMenu.vue";
 import { useRouter } from "vue-router";
 import {useTokenStore} from "@/store/token.ts";
+import {ElMessage} from "element-plus";
+import {updateUserProfileService, userInfoService} from "@/api/user.ts";
 
 const router = useRouter();
 const tokensStore = useTokenStore();
@@ -18,6 +20,47 @@ const logout = () =>{
     router.push("/login")
 }
 
+/** 个人信息弹窗控制 */
+const profileDialogVisible = ref(false);
+
+/** 个人信息表单 */
+const profileForm = ref({
+    email: "",
+    name: "",
+    gender: 1,
+    title: "",
+    intro: ""
+});
+
+/** 打开个人信息弹窗 */
+const openAuthDialog = async () => {
+    try {
+        const res = await userInfoService();
+        if (res.code === 200 && res.data) {
+            const { user, teacher } = res.data;
+            profileForm.value.email = user.email || "";
+            profileForm.value.name = teacher?.name || "";
+            profileForm.value.gender = teacher?.gender ?? 1;
+            profileForm.value.title = teacher?.title || "";
+            profileForm.value.intro = teacher?.intro || "";
+        }
+        profileDialogVisible.value = true;
+    } catch (error) {
+        console.error(error);
+        ElMessage.error("加载用户信息失败");
+    }
+};
+
+/** 保存个人信息 */
+const submitProfile = async () => {
+    try {
+        await updateUserProfileService(profileForm.value);
+        ElMessage.success("个人信息修改成功");
+        profileDialogVisible.value = false;
+    } catch (e) {
+        ElMessage.error("修改失败");
+    }
+};
 </script>
 
 <template>
@@ -45,7 +88,7 @@ const logout = () =>{
 
                 <!--右侧信息栏-->
                 <div class="header_right">
-                    <div>
+                    <div @click="openAuthDialog" style="cursor: pointer">
                         <font-awesome-icon :icon="['fas', 'user']" />
                         个人信息
                     </div>
@@ -71,6 +114,48 @@ const logout = () =>{
                 </el-main>
             </el-container>
         </el-container>
+        <!-- 个人信息弹窗 -->
+        <el-dialog
+            title="个人信息"
+            v-model="profileDialogVisible"
+            width="35vw"
+            :destroy-on-close="true"
+        >
+            <el-form label-width="80px">
+                <el-form-item label="邮箱">
+                    <el-input v-model="profileForm.email" />
+                </el-form-item>
+
+                <el-form-item label="姓名">
+                    <el-input v-model="profileForm.name" />
+                </el-form-item>
+
+                <el-form-item label="性别">
+                    <el-radio-group v-model="profileForm.gender">
+                        <el-radio :label="1">男</el-radio>
+                        <el-radio :label="0">女</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+
+                <el-form-item label="职称">
+                    <el-input v-model="profileForm.title" />
+                </el-form-item>
+
+                <el-form-item label="简介">
+                    <el-input
+                        type="textarea"
+                        rows="3"
+                        v-model="profileForm.intro"
+                    />
+                </el-form-item>
+            </el-form>
+
+            <template #footer>
+                <el-button @click="profileDialogVisible = false">取消</el-button>
+                <el-button type="primary" @click="submitProfile">保存</el-button>
+            </template>
+        </el-dialog>
+
     </div>
 </template>
 
