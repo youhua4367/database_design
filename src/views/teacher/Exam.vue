@@ -2,7 +2,7 @@
 import { ref, onMounted, computed } from "vue";
 import { useRoute } from "vue-router";
 import { ElMessage, ElMessageBox } from "element-plus";
-import { useExamStore } from "@/store/teacher/useExamStore.ts";
+import { useExamStore } from "@/store/teacher/exam.ts";
 import type { Exam } from "@/types/teacher/exam.ts";
 
 const route = useRoute();
@@ -88,8 +88,8 @@ const deleteExam = async (examId: number) => {
     }
 }
 
-onMounted(() => {
-    getExams();
+onMounted(async () => {
+    await getExams();
 });
 </script>
 

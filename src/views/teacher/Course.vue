@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {onMounted, ref} from "vue";
-import {useCourseStore} from "@/store/teacher/useCourseStore.ts";
+import {useCourseStore} from "@/store/teacher/course.ts";
 import type {CoursePost} from "@/types/teacher/course.ts";
 import {ElMessage} from "element-plus";
 import {useCategoryStore} from "@/store/user/useCategory.ts";
@@ -70,10 +70,10 @@ const showUpdateForm = async (courseId: number) => {
     updateDialogVisible.value = true
 }
 
-onMounted(() => {
-    courseStore.getCourses();
+onMounted(async () => {
+    await courseStore.getCourses();
     courseStore.getCategory();
-    categoryStore.getCategoryList();
+    await categoryStore.getCategoryList();
 })
 </script>
 

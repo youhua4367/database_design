@@ -15,10 +15,7 @@
     <el-menu-item class="aside-card" index="/home/person">
         学生管理
     </el-menu-item>
-    <el-menu-item class="aside-card">
-        作业批改
-    </el-menu-item>
-    <el-menu-item class="aside-card">
+    <el-menu-item class="aside-card" index="/home/comment">
         讨论区
     </el-menu-item>
 

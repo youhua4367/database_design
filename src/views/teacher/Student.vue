@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useRoute } from "vue-router"
 import { computed, onMounted, ref } from "vue"
-import { useCourseStore } from "@/store/teacher/useCourseStore.ts"
-import {useLearningProgressStore} from "@/store/teacher/useProgressStore.ts";
+import { useCourseStore } from "@/store/teacher/course.ts"
+import {useLearningProgressStore} from "@/store/teacher/progress.ts";
 import avatar from "@/assets/image/login.png"
 
 const image = avatar

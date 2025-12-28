@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {onMounted} from "vue";
-import {useCourseStore} from "@/store/teacher/useCourseStore.ts";
+import {useCourseStore} from "@/store/teacher/course.ts";
 import CourseList from "@/components/CourseList.vue";
 import {useRouter} from "vue-router";
 
@@ -13,8 +13,8 @@ const handleClick = (examId: number) => {
     router.push(`/home/exam/${examId}`);
 }
 
-onMounted(() => {
-    courseStore.getCourses();
+onMounted(async () => {
+    await courseStore.getCourses();
     courseStore.getCategory();
 })
 </script>
@@ -26,8 +26,6 @@ onMounted(() => {
             :courses-by-category="courseStore.coursesByCategory"
             @course-click="handleClick"
         />
-
-
     </el-container>
 </template>
 
