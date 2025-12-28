@@ -29,7 +29,8 @@ const profileForm = ref({
     name: "",
     gender: 1,
     title: "",
-    intro: ""
+    intro: "",
+    phone: "",
 });
 
 /** 打开个人信息弹窗 */
